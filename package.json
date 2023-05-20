@@ -11,6 +11,14 @@
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "husky": "^8.0.3",
-    "lerna": "^6.6.2"
+    "lerna": "^6.6.2",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

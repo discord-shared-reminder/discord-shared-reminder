@@ -1,10 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
+// import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { type Construct } from 'constructs';
 
 import { ApiGateway } from '../components/api-gateway';
 import { Sns } from '../components/sns';
 import { generateId, generateName } from '../util/resource-generator';
+// import path = require('path');
 
 export class InfraStack extends cdk.Stack {
   private readonly apiGateway: ApiGateway;
@@ -23,10 +24,19 @@ export class InfraStack extends cdk.Stack {
     })
 
 
-    // const proxyLambda = lambda.Function.fromFunctionArn(
+    // const proxyLambda = new lambda.Function(
     //     this,
     //     generateId("proxy-lambda"),
-    //     "arn:aws:lambda:us-east-1:073895145279:function:discord-monthly-reminder-lambdas-ProxyLambda-SGmkPBjRGXJj"
+    //     {
+    //       runtime: lambda.Runtime.NODEJS_18_X,
+    //       handler: "lambda_seila.handler",
+    //       code: lambda.Code.fromAsset(
+    //         path.join(
+    //           require.resolve('lambda_seila'),
+    //           '..'
+    //         )
+    //       )
+    //     }
     // )
 
     // this.apiGateway.addProxyLambda(proxyLambda);
