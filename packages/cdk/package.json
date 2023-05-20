@@ -1,0 +1,57 @@
+{
+  "name": "cdk",
+  "description": "Setup a bot to self remind and message some friends monthly",
+  "version": "0.1.0",
+  "main": "dist/app.js",
+  "types": "dist/app.d.js",
+  "repository": "https://github.com/christianfds/discord-monthly-reminder",
+  "author": "Christian Franchin dos Santos <christianfranchin@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "discord-monthly-reminder": "bin/discord-monthly-reminder.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "npx lerna run build --scope=cdk && jest --passWithNoTests",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "cdk": "cdk synth",
+    "cdk:bootstrap": "cdk bootstrap",
+    "cdk:deploy:all": "cdk deploy --all"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "18.14.6",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "aws-cdk": "2.74.0",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.7",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.74.0",
+    "constructs": "^10.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "source-map-support": "^0.5.21"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
