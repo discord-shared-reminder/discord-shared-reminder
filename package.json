@@ -8,13 +8,12 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.39.1",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.41.0",
     "husky": "^8.0.3",
-    "lerna": "^6.6.2",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.7"
+    "lerna": "^6.6.2"
   },
   "config": {
     "commitizen": {

@@ -1,0 +1,14 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": "@antfu",
+  "rules": {
+    "antfu/top-level-function": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  }
+}
