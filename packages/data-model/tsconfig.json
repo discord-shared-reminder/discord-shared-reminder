@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.sub.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": { "data-model": ["./lib"] },
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ]
+}
