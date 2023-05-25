@@ -2,5 +2,7 @@
   "extends": "../tsconfig.json",
   "files": [],
   "references": [
-    { "path": "service-cdk" }]
+    { "path": "service-cdk" },
+    { "path": "proxy-handler" }
+  ]
 }
