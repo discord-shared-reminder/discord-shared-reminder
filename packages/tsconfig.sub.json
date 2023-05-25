@@ -3,6 +3,7 @@
   "files": [],
   "references": [
     { "path": "service-cdk" },
-    { "path": "proxy-handler" }
+    { "path": "proxy-handler" },
+    { "path": "data-model" }
   ]
 }
