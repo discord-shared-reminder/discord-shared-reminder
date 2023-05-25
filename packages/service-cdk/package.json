@@ -19,6 +19,10 @@
     "cdk:bootstrap": "npx lerna run build --scope=cdk && cdk bootstrap",
     "cdk:deploy:all": "npx lerna run build --scope=cdk && cdk deploy --all --require-approval=never"
   },
+  "dependencies": {
+    "aws-cdk-lib": "^2.81.0",
+    "constructs": "^10.2.32"
+  },
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "18.14.6",
