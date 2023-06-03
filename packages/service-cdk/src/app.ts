@@ -2,12 +2,14 @@
 import * as cdk from 'aws-cdk-lib'
 
 import { InfraStack } from './stacks/infra-stack'
+import { ComputeStack } from './stacks/compute-stack'
 
 class ServiceApp extends cdk.App {
   constructor() {
     super()
 
-    new InfraStack(this)
+    const infraStack = new InfraStack(this)
+    const computeStack = new ComputeStack(this)
   }
 }
 

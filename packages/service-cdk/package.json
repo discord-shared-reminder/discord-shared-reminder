@@ -10,23 +10,24 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cdk synth --quiet",
     "watch": "tsc -w",
     "test": "npx lerna run build --scope=cdk && jest --passWithNoTests",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "cdk": "cdk synth",
     "cdk:bootstrap": "npx lerna run build --scope=cdk && cdk bootstrap",
-    "cdk:deploy:all": "npx lerna run build --scope=cdk && cdk deploy --all --require-approval=never"
+    "cdk:deploy:all": "npx lerna run cdk:build --scope=cdk && cdk deploy --all --require-approval=never"
   },
   "dependencies": {
+    "@aws-cdk/aws-lambda-nodejs": "^1.203.0",
     "aws-cdk-lib": "^2.81.0",
-    "constructs": "^10.2.32"
+    "constructs": "^10.2.32",
+    "proxy-handler": "*"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "18.14.6",
-    "aws-cdk": "2.74.0",
+    "aws-cdk": "2.82.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.40.0",
     "jest": "^29.5.0",
