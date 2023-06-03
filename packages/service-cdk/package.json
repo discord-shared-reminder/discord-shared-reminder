@@ -10,13 +10,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && cdk synth --quiet",
+    "build": "tsc && pnpx cdk synth --quiet",
     "watch": "tsc -w",
-    "test": "npx lerna run build --scope=cdk && jest --passWithNoTests",
+    "test": "pnpx lerna run build --scope=cdk && jest --passWithNoTests",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "cdk:bootstrap": "npx lerna run build --scope=cdk && cdk bootstrap",
-    "cdk:deploy:all": "npx lerna run cdk:build --scope=cdk && cdk deploy --all --require-approval=never"
+    "cdk:bootstrap": "pnpx cdk bootstrap",
+    "cdk:deploy:all": "pnpx cdk deploy --all --require-approval=never"
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-nodejs": "^1.203.0",

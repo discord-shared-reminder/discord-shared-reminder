@@ -46,7 +46,3 @@ Thumbs.db
 
 # Ignore built ts files
 dist/**/*
-
-# ignore yarn.lock and pnpm-lock.yaml
-yarn.lock
-pnpm-lock.yaml

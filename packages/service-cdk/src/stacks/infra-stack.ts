@@ -21,7 +21,7 @@ export class InfraStack extends cdk.Stack {
       packageName: 'proxy-handler',
       packageEntryTs: 'src/proxy-function.ts',
       environment: {
-        PUBLIC_KEY: DISCORD_PUBLIC_KEY,
+        DISCORD_PUBLIC_KEY,
       },
     })
 

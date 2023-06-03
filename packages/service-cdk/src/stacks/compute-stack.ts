@@ -10,14 +10,5 @@ export class ComputeStack extends cdk.Stack {
 
   constructor(scope: Construct, props?: cdk.StackProps) {
     super(scope, generateId('compute-stack'), props)
-
-    // this.proxyLambda = new LambdaNodejs(this, {
-    //   packageFolder: '..',
-    //   packageName: 'proxy-handler',
-    //   packageEntryTs: 'src/proxy-function.ts',
-    //   environment: {
-    //     PUBLIC_KEY: DISCORD_PUBLIC_KEY,
-    //   },
-    // })
   }
 }
