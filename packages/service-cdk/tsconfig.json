@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": ".",
-    "paths": { "cdk": ["./lib"] },
+    "paths": { "cdk": ["./src"] },
     "typeRoots": [
       "./node_modules/@types"
     ]

@@ -6,9 +6,16 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "main": "src/proxy-function.ts",
+  "main": "src/proxy_function.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix"
   },
   "dependencies": {
     "aws-sdk": "2.1382.0",

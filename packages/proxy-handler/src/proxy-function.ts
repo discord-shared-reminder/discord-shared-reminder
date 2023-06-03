@@ -1,12 +1,15 @@
+/* eslint-disable no-console */
 import { Buffer } from 'node:buffer'
 import nacl from 'tweetnacl'
 import AWS from 'aws-sdk'
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 
-export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+// eslint-disable-next-line antfu/no-cjs-exports
+module.exports.handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const strBody = event.body // should be string, for successful sign
 
   if (!strBody) {
+    console.warn('Empty body')
     return {
       statusCode: 400,
       body: JSON.stringify('no body'),
@@ -14,6 +17,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
   }
 
   if (!event.headers.test) {
+    console.info('Checking signature')
     // Checking signature (requirement 1.)
     // Your public key can be found on your application in the Developer Portal
     const PUBLIC_KEY = process.env!.PUBLIC_KEY!
@@ -21,6 +25,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
     const timestamp = event.headers['x-signature-timestamp'] || event.headers['X-Signature-Timestamp']
 
     if (!signature || !timestamp) {
+      console.warn('Invalid signature')
       return {
         statusCode: 401,
         body: JSON.stringify('invalid request signature'),
@@ -34,6 +39,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
     )
 
     if (!isVerified) {
+      console.warn('Invalid signature')
       return {
         statusCode: 401,
         body: JSON.stringify('invalid request signature'),
@@ -44,6 +50,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
   // Replying to ping (requirement 2.)
   const body = JSON.parse(strBody)
   if (body.type === 1) {
+    console.info('Event type: Ping')
     return {
       statusCode: 200,
       body: JSON.stringify({ type: 1 }),
@@ -52,6 +59,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
 
   // Handle command (send to SNS and split to one of Lambdas)
   if (body.data.name) {
+    console.info('Event type: ', body.data.name)
     const eventText = JSON.stringify(body, null, 2)
     const params: AWS.SNS.PublishInput = {
       Message: eventText,
@@ -69,6 +77,7 @@ export default async function (event: APIGatewayProxyEvent): Promise<APIGatewayP
     }
   }
 
+  console.warn('Unhandled event body: ', body)
   return {
     statusCode: 404,
     body: JSON.stringify('not found'),

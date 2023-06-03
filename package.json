@@ -8,6 +8,7 @@
     "@antfu/eslint-config": "^0.39.1",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
+    "esbuild": "0",
     "eslint": "^8.41.0",
     "husky": "^8.0.3",
     "lerna": "^6.6.2",
