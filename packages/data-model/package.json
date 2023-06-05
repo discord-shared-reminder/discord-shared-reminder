@@ -8,14 +8,17 @@
   "keywords": [],
   "main": "lib/types.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.342.0",
     "@aws-sdk/util-dynamodb": "3.245.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.115",
     "@types/node": "20.1.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.41.0",
