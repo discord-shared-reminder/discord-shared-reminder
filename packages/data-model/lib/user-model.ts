@@ -1,59 +1,49 @@
 import { randomUUID } from 'node:crypto'
-import { DynamoDBClient, GetItemCommand, PutItemCommand, ScanCommand } from '@aws-sdk/client-dynamodb'
+import { DynamoDBClient, GetItemCommand, PutItemCommand, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb'
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb'
 
 export interface UserData {
-  id: string
-  username: string
-  discordId: string
   guildId: string
+  uuid: string
+  username: string
+  email: string
+  discordId?: string
   createdAt: Date
-  ack: Ack[]
-  reminders: Reminder[]
-}
-
-export interface Ack {
-  id: string
-  amount: number
-  dueDate: Date
-  status: string
-  createdAt: Date
-}
-
-export interface Reminder {
-  id: string
-  reminderDate: Date
-  lastSentAt: Date
-  createdAt: Date
+  deletedAt?: Date
 }
 
 export class User implements UserData {
-  id: string
-  username: string
-  discordId: string
   guildId: string
+  uuid: string
+  username: string
+  email: string
+  discordId?: string
   createdAt: Date
-  ack: Ack[]
-  reminders: Reminder[]
+  deletedAt?: Date
 
   constructor(userData: UserData) {
-    this.id = userData.id
-    this.username = userData.username
-    this.discordId = userData.discordId
     this.guildId = userData.guildId
+    this.uuid = userData.uuid
+    this.username = userData.username
+    this.email = userData.email
+    this.discordId = userData.discordId
     this.createdAt = userData.createdAt
-    this.ack = userData.ack
-    this.reminders = userData.reminders
+    this.deletedAt = userData.deletedAt
   }
 
-  listUsers = async () => {
+  listUsers = async (guildId: string) => {
     const params = {
       TableName: process.env.TABLE_NAME,
+      KeyConditionExpression: '#guildId = :guildId',
+      ExpressionAttributeValues: marshall({
+        ':guildId': guildId,
+      }),
+      ProjectionExpression: 'uuid, username, email, discordId, createdAt, deletedAt',
     }
 
     try {
       const dynamo = new DynamoDBClient({})
-      const { Items } = await dynamo.send(new ScanCommand(params))
+      const { Items } = await dynamo.send(new QueryCommand(params))
 
       if (!Items)
         return new Error('No users found')
@@ -66,10 +56,10 @@ export class User implements UserData {
     }
   }
 
-  getUser = async (id: string) => {
+  getUser = async (uuid: string) => {
     const params = {
       TableName: process.env.TABLE_NAME,
-      Key: marshall({ id }),
+      Key: marshall({ uuid }),
     }
 
     try {
@@ -87,14 +77,14 @@ export class User implements UserData {
     }
   }
 
-  createUser = async (user: Partial<UserData>) => {
+  createUser = async (user: UserData) => {
+    user.uuid = randomUUID()
+    user.createdAt = new Date()
+    user.deletedAt = undefined
+
     const params = {
       TableName: process.env.TABLE_NAME,
-      Item: marshall({
-        id: randomUUID(),
-        createdAt: new Date(),
-        ...user,
-      }),
+      Item: marshall(user),
     }
 
     try {
@@ -108,5 +98,49 @@ export class User implements UserData {
     }
   }
 
-  // TODO: add deleteUser | getUsersBy | updateUser
+  updateUser = async (uuid: string, user: UserData) => {
+    const params = {
+      TableName: process.env.TABLE_NAME,
+      Key: marshall({ uuid }),
+      UpdateExpression: 'SET #username = :username, #discordId = :discordId, #email = :email',
+      ExpressionAttributeValues: marshall({
+        ':username': user.username,
+        ':discordId': user.discordId,
+        ':email': user.email,
+      }),
+      ReturnValues: 'ALL_NEW',
+    }
+
+    try {
+      const dynamo = new DynamoDBClient({})
+
+      return await dynamo.send(new UpdateItemCommand(params))
+    }
+    catch (err) {
+      console.error(err)
+      return { error: err }
+    }
+  }
+
+  deleteUser = async (uuid: string) => {
+    const params = {
+      TableName: process.env.TABLE_NAME,
+      Key: marshall({ uuid }),
+      UpdateExpression: 'SET #deletedAt = :deletedAt',
+      ExpressionAttributeValues: marshall({
+        ':deletedAt': new Date(),
+      }),
+      ReturnValues: 'ALL_NEW',
+    }
+
+    try {
+      const dynamo = new DynamoDBClient({})
+
+      return await dynamo.send(new UpdateItemCommand(params))
+    }
+    catch (err) {
+      console.error(err)
+      return { error: err }
+    }
+  }
 }
