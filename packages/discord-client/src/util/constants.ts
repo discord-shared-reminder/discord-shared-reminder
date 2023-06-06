@@ -1,1 +1,1 @@
-export const CLIENT_ID = process.env.CLIENT_ID || ''
+export const DISCORD_SECRET = process.env.DISCORD_SECRET || ''
