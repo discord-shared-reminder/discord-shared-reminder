@@ -6,7 +6,7 @@ export default {
     .setName('create')
     .setDescription('Create a new user in the database'),
 
-  execute: async (interaction: ChatInputCommandInteraction) => {
+  handler: async (interaction: ChatInputCommandInteraction) => {
     const modal = new ModalBuilder()
       .setCustomId('user-create')
       .setTitle('Create a new user')
