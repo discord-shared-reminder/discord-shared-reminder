@@ -1,5 +1,6 @@
 import type * as lambda from 'aws-cdk-lib/aws-lambda'
-import { type SubscriptionProps, Topic } from 'aws-cdk-lib/aws-sns'
+import { Topic } from 'aws-cdk-lib/aws-sns'
+import type { LambdaSubscriptionProps } from 'aws-cdk-lib/aws-sns-subscriptions'
 import { LambdaSubscription } from 'aws-cdk-lib/aws-sns-subscriptions'
 import type { Construct } from 'constructs'
 
@@ -8,7 +9,7 @@ interface SnsProps {
 }
 
 export class Sns {
-  private readonly topic: Topic
+  public readonly topic: Topic
 
   constructor(scope: Construct, id: string, props: SnsProps) {
     this.topic = new Topic(scope, id, {
@@ -16,7 +17,7 @@ export class Sns {
     })
   }
 
-  public addSubscription(lambdaHandler: lambda.Function, props: SubscriptionProps) {
+  public addSubscription(lambdaHandler: lambda.Function, props: LambdaSubscriptionProps) {
     this.topic.addSubscription(
       new LambdaSubscription(lambdaHandler, props),
     )

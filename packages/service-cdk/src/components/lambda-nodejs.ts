@@ -8,14 +8,18 @@ export interface LambdaNodejsProps {
   packageFolder: string
   packageName: string
   packageEntryTs: string
+  export_default?: boolean
   environment?: { [key: string]: string }
 }
 
 export class LambdaNodejs {
   public readonly lambda: lambda.Function
+  public readonly subscription: string
 
   constructor(scope: Construct, props: LambdaNodejsProps) {
     const basePath = path.join(props.packageFolder, props.packageName)
+
+    this.subscription = props.packageName
 
     this.lambda = new NodejsFunction(
       scope,
@@ -23,6 +27,7 @@ export class LambdaNodejs {
       {
         runtime: lambda.Runtime.NODEJS_18_X,
         entry: path.join(basePath, props.packageEntryTs),
+        handler: props.export_default ? 'index.default.handler' : undefined,
         bundling: {
           tsconfig: path.join(basePath, 'tsconfig.json'),
         },

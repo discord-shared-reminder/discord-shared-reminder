@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js'
-import { DISCORD_SECRET } from './util/constants'
+import { Interaction } from './interaction'
+import { DISCORD_TOKEN } from './util/constants'
 
 export default class ConnectClient {
   client: Client
@@ -7,8 +8,8 @@ export default class ConnectClient {
   constructor() {
     this.client = new Client({
       intents: [
-        GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageTyping,
         GatewayIntentBits.MessageContent,
       ],
     })
@@ -23,11 +24,15 @@ export default class ConnectClient {
         console.error(error)
         reject(error)
       })
-      if (!DISCORD_SECRET)
+      if (!DISCORD_TOKEN)
         reject(new Error('No Discord secret found'))
 
-      this.client.login(DISCORD_SECRET)
+      this.client.login(DISCORD_TOKEN)
     },
     )
+  }
+
+  parserInteraction(data: any): Interaction {
+    return new Interaction(this.client, data)
   }
 }

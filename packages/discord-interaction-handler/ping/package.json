@@ -1,5 +1,5 @@
 {
-  "name": "register-commands",
+  "name": "ping",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -8,10 +8,11 @@
   "keywords": [],
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "dependencies": {
-    "aws-sdk": "2.1382.0"
+    "discord-client": "workspace:*"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.115",

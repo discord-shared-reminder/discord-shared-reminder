@@ -16,18 +16,20 @@ export class InfraStack extends cdk.Stack {
   constructor(scope: Construct, props?: cdk.StackProps) {
     super(scope, generateId('infra-stack'), props)
 
+    this.sns = new Sns(this, generateId('events-topic'), {
+      name: generateName('EventsTopic'),
+    })
+
     this.proxyLambda = new LambdaNodejs(this, {
       packageFolder: '..',
       packageName: 'proxy-handler',
       packageEntryTs: 'src/proxy-function.ts',
       environment: {
         DISCORD_PUBLIC_KEY,
+        TOPIC_ARN: this.sns.topic.topicArn,
       },
     })
 
-    this.sns = new Sns(this, generateId('events-topic'), {
-      name: generateName('EventsTopic'),
-    })
     this.sns.addPublisher(this.proxyLambda.lambda)
 
     this.apiGateway = new ApiGateway(this, generateId('api-gateway'), {

@@ -5,7 +5,8 @@
   },
   "extends": "@antfu",
   "rules": {
-    "antfu/top-level-function": "off"
+    "antfu/top-level-function": "off",
+    "no-console": "off"
   },
   "parserOptions": {
     "ecmaVersion": "latest",

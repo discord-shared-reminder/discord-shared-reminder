@@ -1,1 +1,1 @@
-export const DISCORD_SECRET = process.env.DISCORD_SECRET || ''
+export const DISCORD_TOKEN = process.env.DISCORD_TOKEN || ''
