@@ -41,7 +41,14 @@ jobs:
       - name: Build
         run: pnpx lerna run build
 
+      - name: Register discord commands
+        run: pnpx lerna run register
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+
       - name: Deploy to AWS
         run: pnpx lerna run cdk:deploy:all
         env:
           DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
