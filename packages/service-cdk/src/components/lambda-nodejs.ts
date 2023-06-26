@@ -2,6 +2,7 @@ import path from 'node:path'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs'
 import type { Construct } from 'constructs'
+import { Duration } from 'aws-cdk-lib'
 import { generateId } from '../util/resource-generator'
 
 export interface LambdaNodejsProps {
@@ -32,6 +33,7 @@ export class LambdaNodejs {
           tsconfig: path.join(basePath, 'tsconfig.json'),
         },
         environment: props?.environment || undefined,
+        timeout: Duration.seconds(15),
       },
     )
   }

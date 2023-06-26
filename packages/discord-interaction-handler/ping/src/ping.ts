@@ -8,26 +8,27 @@ export default {
     .setDescription('Replies with Pong!'),
 
   handler: async (snsEvent: SNSEvent) => {
+    const failedToProcess = []
     const client = new ConnectClient()
     await client.connect()
 
-    snsEvent.Records.forEach(async (event) => {
-      const interaction = client.parserInteraction(JSON.parse(event.Sns.Message))
+    for await (const event of snsEvent.Records) {
+      const interaction = await client.parserInteraction(JSON.parse(event.Sns.Message))
+      console.debug(interaction)
 
       try {
         if (!interaction.isChatInputCommand())
           return
 
-        // Not working, must fix
-        console.log('Replying with reply')
-        await interaction.reply('Pong!')
+        console.debug('Replying')
+        await interaction.editReply({ content: 'Pong!' })
       }
       catch (err) {
         console.error(err)
-        await interaction.reply('There was an error executing the command')
+        failedToProcess.push(event.Sns.MessageId)
       }
-    })
+    }
 
-    return []
+    return failedToProcess
   },
 }

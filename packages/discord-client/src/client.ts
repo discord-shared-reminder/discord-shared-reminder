@@ -32,7 +32,13 @@ export default class ConnectClient {
     )
   }
 
-  parserInteraction(data: any): Interaction {
-    return new Interaction(this.client, data)
+  async parserInteraction(data: any): Promise<Interaction> {
+    const interaction = new Interaction(this.client, data)
+
+    // So we can edit reply, the interaction doesn't have the context to know it was already deferred
+    interaction.deferred = true
+    interaction.replied = true
+
+    return interaction
   }
 }
