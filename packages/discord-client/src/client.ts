@@ -2,21 +2,38 @@ import { Client, GatewayIntentBits } from 'discord.js'
 import { Interaction } from './interaction'
 import { DISCORD_TOKEN } from './util/constants'
 
-export default class ConnectClient {
+export default class ClientSingleton {
+  private static instance: ClientSingleton
   client: Client
 
-  constructor() {
-    this.client = new Client({
-      intents: [
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageTyping,
-        GatewayIntentBits.MessageContent,
-      ],
-    })
+  private constructor() {}
+
+  public static async getInstance(): Promise<ClientSingleton> {
+    if (!ClientSingleton.instance) {
+      const instance = new ClientSingleton()
+
+      instance.client = new Client({
+        intents: [
+          GatewayIntentBits.GuildMessages,
+          GatewayIntentBits.GuildMessageTyping,
+          GatewayIntentBits.MessageContent,
+        ],
+      })
+      await instance.connect()
+
+      return instance
+    }
+
+    return ClientSingleton.instance
   }
 
   async connect() {
+    console.log('Connecting client')
     return new Promise((resolve, reject) => {
+      // Debugging levels
+      this.client.on('warn', console.warn)
+      this.client.on('debug', console.debug)
+
       this.client.on('ready', () => {
         resolve(this)
       })

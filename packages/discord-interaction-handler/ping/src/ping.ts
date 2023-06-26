@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js'
-import ConnectClient from 'discord-client'
 import type { SNSEvent } from 'aws-lambda'
+import ClientSingleton from 'discord-client'
 
 export default {
   data: new SlashCommandBuilder()
@@ -9,8 +9,7 @@ export default {
 
   handler: async (snsEvent: SNSEvent) => {
     const failedToProcess = []
-    const client = new ConnectClient()
-    await client.connect()
+    const client = await ClientSingleton.getInstance()
 
     for await (const event of snsEvent.Records) {
       const interaction = await client.parserInteraction(JSON.parse(event.Sns.Message))
